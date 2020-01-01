@@ -4,21 +4,26 @@
 #include <errno.h>
 #include <stdlib.h>
 
-
+/*
+    define node
+    定义节点
+*/
 struct node {
     TCB *thread;
     struct node *next;
 };
 
-
+/*
+    define queue
+    定义队列
+*/
 struct queue {
     struct node *head;
     size_t size;
 };
 
 
-
-
+//在堆上创建一个新的初始化队列。
 QUEUE *queue_new(void)
 {
     QUEUE *new;
@@ -30,7 +35,7 @@ QUEUE *queue_new(void)
     return new;
 }
 
-
+//销毁队列，释放与之相关的所有内存。
 void queue_destroy(QUEUE *queue)
 {
     struct node *prev = NULL;
@@ -47,13 +52,13 @@ void queue_destroy(QUEUE *queue)
     free(queue);
 }
 
-
+//返回队列中的项数。即统计队列大小
 size_t queue_size(const QUEUE *queue)
 {
     return queue->size;
 }
 
-
+//将elem添加到队列的末尾。成功返回0，失败返回非0。入队
 int queue_enqueue(QUEUE *queue, TCB *elem)
 {
     // Create the new node
@@ -83,7 +88,7 @@ int queue_enqueue(QUEUE *queue, TCB *elem)
     return 0;
 }
 
-
+//出队操作
 TCB *queue_dequeue(QUEUE *queue)
 {
     struct node *old_head = queue->head;
@@ -96,7 +101,7 @@ TCB *queue_dequeue(QUEUE *queue)
     return retval;
 }
 
-
+//通过id删除队列中的元素。
 TCB *queue_remove_id(QUEUE *queue, int id)
 {
     if (queue->head == NULL) {

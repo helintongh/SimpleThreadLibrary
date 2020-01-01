@@ -23,13 +23,16 @@ typedef struct
 };
 
 /*
-*  在堆上创建一个新的空的TCB线程控制块。返回指向新块的指针
-*  如果创建失败则返回NULL
+*	Create a new zeroed TCB on the heap. Returns a pointer to the new
+*  	block or NULL on error.
+*  	在堆上创建一个新的空的TCB线程控制块。返回指向新块的指针
+*  	如果创建失败则返回NULL。
 */
 TCB *tcb_new(void);
 
 /*
-* 销毁TCB线程控制块，并释放所有关联的内存
+*	Destroy block, freeing all associated memory with it
+* 	销毁TCB线程控制块，并释放所有关联的内存
 */
 void tcb_destroy(TCB *block);
 

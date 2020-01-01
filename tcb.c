@@ -1,5 +1,5 @@
 //tcb.c
-
+//实现tcb控制块
 #include "tcb.h"
 
 #include <stdlib.h>
