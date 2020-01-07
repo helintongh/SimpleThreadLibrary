@@ -5,9 +5,9 @@ Detailed implementation:https://github.com/helintongh/hlt_note/blob/master/md/09
 
 Three functions are implemented:
 
-threads_create: create a new thread.
-threads_exit: kill running thread.
-threads_join: connect two threads.
+- threads_create: create a new thread.
+- threads_exit: kill running thread.
+- threads_join: connect two threads.
 
 sample:
 ```C
