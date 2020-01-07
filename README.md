@@ -11,7 +11,7 @@ Three functions are implemented:
 
 sample:
 ```C
-/*main.c*/
+/*demo.c*/
 #include "threads.h"
 
 #include <stdio.h>
