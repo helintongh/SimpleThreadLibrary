@@ -1,7 +1,7 @@
 #include "threads.h"
 #include "tcb.h"
 #include "queue.h"
-
+#include <signal.h>
 #include <errno.h>
 #include <stdbool.h>
 #include <stdint.h>
@@ -33,7 +33,7 @@ int threads_create(void *(*start_routine) (void *), void *arg)
 {
     block_sigprof();
 
-    // Init if necessary 初始化
+    // Init if necessary初始化
 
     static bool initialized;
 
@@ -105,7 +105,7 @@ void threads_exit(void *result)
 	exit(EXIT_SUCCESS);
     }
 
-    setcontext(&running->context);  // also unblocks SIGPROF
+    setcontext(&running->context);  // 还是未解锁
 }
 
 
@@ -184,10 +184,10 @@ static bool init_profiling_timer(void)
 
     const struct itimerval timer = {
 	{ 0, 10000 },
-	{ 0, 1 }  // arms the timer as soon as possible 启动计时器
+	{ 0, 1 }  // arms the timer as soon as possible启动计时器
     };
 
-    // Enable timer 赋予计时器功能
+    // Enable timer赋予计时器功能
 
     if (setitimer(ITIMER_PROF, &timer, NULL) == - 1) {
 	if (sigaction(SIGPROF, &old, NULL) == -1) {
@@ -210,7 +210,7 @@ static void handle_sigprof(int signum, siginfo_t *nfo, void *context)
 	_exit(EXIT_SUCCESS);
     }
 
-    // Backup the current context备份当前上下文
+    // Backup the current context
     // 超时要切换占用cpu的线程了
     ucontext_t *stored = &running->context;
     ucontext_t *updated = (ucontext_t *) context;
@@ -220,7 +220,7 @@ static void handle_sigprof(int signum, siginfo_t *nfo, void *context)
     stored->uc_mcontext = updated->uc_mcontext;
     stored->uc_sigmask = updated->uc_sigmask;
 
-    //  Round robin让running中线程的进入ready就绪队列剥夺它的cpu使用权
+    // Round robin 让running中线程的进入ready就绪队列剥夺它的cpu使用权
 
     if (queue_enqueue(ready, running) != 0) {
 	abort();
@@ -230,7 +230,7 @@ static void handle_sigprof(int signum, siginfo_t *nfo, void *context)
 	abort();
     }
 
-    // Manually leave the signal handler 手动退出信号处理器
+    // Manually leave the signal handler手动退出信号处理器
 
     errno = old_errno;
     if (setcontext(&running->context) == -1) {
@@ -252,7 +252,7 @@ static void handle_thread_start(void)
 	 
 static bool malloc_stack(TCB *thread)
 {
-    // Get the stack size 得到分配的栈的大小
+    // Get the stack size得到分配的栈的大小
 
     struct rlimit limit;
 
@@ -260,7 +260,7 @@ static bool malloc_stack(TCB *thread)
 	return false;
     }
 
-    // Allocate memory 分配存储空间
+    // Allocate memory分配存储空间
 
     void *stack;
 
@@ -268,7 +268,7 @@ static bool malloc_stack(TCB *thread)
 	return false;
     }
 
-    // Update the thread control block 更新tcb线程控制块
+    // Update the thread control bock 更新tcb线程控制块
 
     thread->context.uc_stack.ss_flags = 0;
     thread->context.uc_stack.ss_size = limit.rlim_cur;

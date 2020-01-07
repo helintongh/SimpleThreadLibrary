@@ -23,6 +23,7 @@ struct queue {
 };
 
 
+
 //在堆上创建一个新的初始化队列。
 QUEUE *queue_new(void)
 {

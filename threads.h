@@ -4,8 +4,9 @@
 *	实现用户级线程 
 */
 
-#ifndef	THREADS_H
-#define	THREADS_H
+#ifndef THREADS_H
+#define THREADS_H
+
 
 /*
 *	Create a new thread. func is the function that will be run once the
@@ -18,11 +19,13 @@
 */
 int threads_create(void *(*start_routine) (void *), void *arg);
 
+
 /* 
 *	Stop execution of the thread calling this function. 
 *	停止执行调用此函数的线程。
 */
 void threads_exit(void *result);
+
 
 /* 
 *	Wait for the thread with matching id to finish execution, that is,

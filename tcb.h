@@ -5,22 +5,24 @@
 * date time: 2019.11.23
 */
 
-#ifndef	TCB_H
+#ifndef TCB_H
 #define TCB_H
+
 
 #include <stdbool.h>
 #include <stdint.h>
 #include <ucontext.h>
 
-typedef struct 
-{
-	int id;
-	ucontext_t context;
-	bool has_dynamic_stack;
-	void *(*start_routine) (void *);
-	void *argument;
-	void *return_value;
-};
+
+typedef struct {
+    int id;
+    ucontext_t context;
+    bool has_dynamic_stack;
+    void *(*start_routine) (void *);
+    void *argument;
+    void *return_value;
+} TCB;
+
 
 /*
 *	Create a new zeroed TCB on the heap. Returns a pointer to the new
@@ -35,5 +37,6 @@ TCB *tcb_new(void);
 * 	销毁TCB线程控制块，并释放所有关联的内存
 */
 void tcb_destroy(TCB *block);
+
 
 #endif

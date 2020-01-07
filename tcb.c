@@ -4,27 +4,27 @@
 
 #include <stdlib.h>
 
+
 TCB *tcb_new(void)
 {
-	static int next_id = 1;
+    static int next_id = 1;
 
-	TCB *newT;
+    TCB *new;
 
-	if((newT = calloc(1,sizeof(TCB))) == NULL )
-	{
-		return NULL;
-	}
+    if ((new = calloc(1, sizeof(TCB))) == NULL) {
+	return NULL;
+    }
 
-	newT -> id = new_id++;
-	return newT;
+    new->id = next_id++;
+    return new;
 }
 
-void tcb_destory(TCB *block)
-{
-	if (block -> has_dynamic_stack)
-	{
-		free(block->contex.uc_stack.ss_sp);
-	}
 
-	free(block);
+void tcb_destroy(TCB *block)
+{
+    if (block->has_dynamic_stack) {
+	free(block->context.uc_stack.ss_sp);
+    }
+
+    free(block);
 }
