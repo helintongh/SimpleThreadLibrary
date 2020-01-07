@@ -61,7 +61,7 @@ size_t queue_size(const QUEUE *queue)
 //将elem添加到队列的末尾。成功返回0，失败返回非0。入队
 int queue_enqueue(QUEUE *queue, TCB *elem)
 {
-    // Create the new node
+    // Create the new node创建新节点
 
     struct node *new;
 
@@ -72,7 +72,7 @@ int queue_enqueue(QUEUE *queue, TCB *elem)
     new->thread = elem;
     new->next = NULL;
 
-    // Enqueue the new node
+    // Enqueue the new node为新节点排队
 
     if (queue->head == NULL) {
 	queue->head = new;
